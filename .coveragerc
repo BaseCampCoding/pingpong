@@ -1,0 +1,7 @@
+[run]
+source=.
+omit=manage.py,pingpong/wsgi.py
+branch=True
+
+[report]
+fail_under=100
