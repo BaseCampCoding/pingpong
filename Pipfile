@@ -12,6 +12,7 @@ mypy = "*"
 pylint = "*"
 isort = "*"
 coverage = "*"
+selenium = "*"
 
 [requires]
 python_version = "3.6"
