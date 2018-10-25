@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+from django.urls import reverse_lazy
 
 import django_heroku
 
@@ -81,5 +82,7 @@ USE_L10N = True
 USE_TZ = True
 
 STATIC_URL = '/static/'
+
+LOGIN_REDIRECT_URL = reverse_lazy('app:user-home')
 
 django_heroku.settings(locals())
