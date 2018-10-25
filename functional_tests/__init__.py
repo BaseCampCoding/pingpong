@@ -1,7 +1,11 @@
 from django.test import LiveServerTestCase
+from contextlib import contextmanager
 
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.support.expected_conditions import staleness_of
 
 from django.urls import reverse, resolve, Resolver404
 from urllib.parse import urlparse
@@ -9,18 +13,24 @@ from urllib.parse import urlparse
 
 class SeleniumTestCase(LiveServerTestCase):
     def setUp(self):
-        firefox_options = Options()
-        firefox_options.headless = True
-        self.browser = webdriver.Firefox(firefox_options=firefox_options)
+        options = Options()
+        options.headless = True
+        self.browser = webdriver.Firefox(options=options)
+        self.browser.implicitly_wait(2)
 
     def tearDown(self):
         self.browser.quit()
 
     def visit(self, *args, **kwargs):
-        self.browser.get(reverse(*args, **kwargs))
+        self.browser.get(self.live_server_url + reverse(*args, **kwargs))
 
     def fill_out(self, form_name: str, values: dict, *, submit: bool):
-        form = self.browser.find_element_by_name(form_name)
+        try:
+            form = self.browser.find_element_by_name(form_name)
+        except NoSuchElementException:
+            html = self.browser.find_element_by_tag_name('body').text
+            raise AssertionError(
+                f'Unable to find form {form_name} in page:\n{html}', )
         for input_name, value in values.items():
             form.find_element_by_name(input_name).send_keys(value)
         if submit:
@@ -36,3 +46,19 @@ class SeleniumTestCase(LiveServerTestCase):
             return resolve(self.current_path).view_name
         except Resolver404:
             return None
+
+    @property
+    def current_text(self):
+        return self.browser.find_element_by_tag_name('body').text
+
+    @contextmanager
+    def wait_for_page_load(self, timeout=2):
+        old_page = self.browser.find_element_by_tag_name('html')
+        yield
+        WebDriverWait(self.browser, timeout).until(staleness_of(old_page))
+
+    def assert_current_view(self, view_name):
+        old_page = self.browser.find_element_by_tag_name('html')
+        if self.current_view != view_name:
+            WebDriverWait(self.browser, 2).until(staleness_of(old_page))
+        self.assertEqual(self.current_view, view_name, self.current_text)

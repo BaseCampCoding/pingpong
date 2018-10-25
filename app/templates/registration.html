@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>New User</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+    <form name="registration-form" method="POST">
+        {% csrf_token %}
+        <input type="text" id="username" name="username">
+        <input type="password" name="password" id="password">
+        <input type="password" name="password_repeat" id="password_repeat">
+        <button>Register</button>
+    </form>
+</body>
+
+</html>

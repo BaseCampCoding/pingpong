@@ -1,6 +1,8 @@
 import os
 from pathlib import Path
 
+import django_heroku
+
 BASE_DIR = Path(__file__).parent.parent.absolute()
 
 SECRET_KEY = 'y9=o-2^8+s%o=d@t=u2v^_%gr=^d^cq+)^9n_5@4zhvv4ge7^='
@@ -16,6 +18,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'app',
 ]
 
 MIDDLEWARE = [
@@ -79,5 +82,4 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-import django_heroku
 django_heroku.settings(locals())

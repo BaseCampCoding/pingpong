@@ -18,9 +18,9 @@ class RegistrationTest(SeleniumTestCase):
             'registration-form', {
                 'username': self.username,
                 'password': self.password,
-                'password-repeat': self.password
+                'password_repeat': self.password
             },
             submit=True)
 
     def should_be_on_user_homepage(self):
-        assert self.current_view == 'app:user:home'
+        self.assert_current_view('app:user-home')
