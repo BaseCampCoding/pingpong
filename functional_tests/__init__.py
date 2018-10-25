@@ -1,4 +1,5 @@
 from django.test import LiveServerTestCase
+from django.contrib.auth import get_user_model
 from contextlib import contextmanager
 
 from selenium import webdriver
@@ -17,6 +18,11 @@ class SeleniumTestCase(LiveServerTestCase):
         options.headless = True
         self.browser = webdriver.Firefox(options=options)
         self.browser.implicitly_wait(2)
+
+        self.setUpTestData()
+
+    def setUpTestData(self):
+        pass
 
     def tearDown(self):
         self.browser.quit()
@@ -62,3 +68,7 @@ class SeleniumTestCase(LiveServerTestCase):
         if self.current_view != view_name:
             WebDriverWait(self.browser, 2).until(staleness_of(old_page))
         self.assertEqual(self.current_view, view_name, self.current_text)
+
+    def create_user(self, *, username, password):
+        model = get_user_model()
+        return model.objects.create_user(username=username, password=password)
