@@ -20,4 +20,4 @@ python_version = "3.6"
 
 [scripts]
 test = "bash ./test.sh"
-autotest = "watchman-make -p **/*.py --run ./test.sh --settle .5"
+autotest = "watchman-make -p **/*.py **/*.html --run 'clear && ./test.sh' --settle .5"
