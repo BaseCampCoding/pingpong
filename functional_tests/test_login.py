@@ -1,5 +1,4 @@
 from functional_tests import SeleniumTestCase
-from django.contrib.auth import get_user_model
 
 
 class LoginTest(SeleniumTestCase):
