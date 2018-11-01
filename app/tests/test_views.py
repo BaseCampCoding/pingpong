@@ -1,4 +1,4 @@
-from django.test import TestCase, RequestFactory
+from django.test import TestCase
 from django.urls import reverse
 from unittest.mock import patch
 from django.contrib.auth import get_user_model
@@ -7,11 +7,10 @@ from .. import views, models
 
 class RegistrationTest(TestCase):
     def setUp(self):
-        self.factory = RequestFactory()
         self.UserModel = get_user_model()
 
     def test_creates_a_user(self):
-        request = self.factory.post(
+        self.client.post(
             reverse('app:registration'),
             data={
                 'username': 'natec425',
@@ -19,15 +18,12 @@ class RegistrationTest(TestCase):
                 'password_repeat': 'GoodPassword123!',
             })
 
-        views.registration(request)
-
         self.assertTrue(
             self.UserModel.objects.filter(username='natec425').exists())
 
 
 class ScoreGameTest(TestCase):
     def setUp(self):
-        self.factory = RequestFactory()
         self.UserModel = get_user_model()
         self.nate = self.UserModel.objects.create_user(
             username='nate', password='testpass')
