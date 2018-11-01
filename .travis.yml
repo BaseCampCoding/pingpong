@@ -7,9 +7,7 @@ install:
 script:
   - ./test.sh
 env:
-  - MOZ_HEADLESS=1 DEBUG=True SECRET_KEY=supersecrettraviskey DATABASE_URL=postgres:///travis_ci_test
-  global:
-    - PGPORT=5433
+  - PGPORT=5433 MOZ_HEADLESS=1 DEBUG=True SECRET_KEY=supersecrettraviskey DATABASE_URL=postgres:///travis_ci_test
 addons:
   firefox: latest
 services:
