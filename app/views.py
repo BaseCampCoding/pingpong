@@ -7,18 +7,11 @@ from .forms import RegistrationForm, GameUpdateForm
 from . import models
 
 
-class RegistrationView(FormView):
+class RegistrationView(CreateView):
+    model = get_user_model()
     template_name = 'registration.html'
     form_class = RegistrationForm
     success_url = reverse_lazy('app:user-home')
-
-    def form_valid(self, form):
-        UserModel = get_user_model()
-        UserModel.objects.create_user(
-            username=form.cleaned_data['username'],
-            password=form.cleaned_data['password'],
-        )
-        return super().form_valid(form)
 
 
 class UserHome(TemplateView):
