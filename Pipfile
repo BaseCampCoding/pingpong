@@ -9,6 +9,7 @@ django-heroku = "*"
 djangorestframework = "*"
 django-cors-headers = "*"
 gunicorn = "*"
+sentry-sdk = "*"
 
 [dev-packages]
 yapf = "*"

@@ -95,4 +95,13 @@ REST_FRAMEWORK = {
 
 CROSS_ORIGIN_ALLOW_ALL = True
 
+if 'SENTRY_DSN' in os.environ:
+    import sentry_sdk
+    from sentry_sdk.integrations.django import DjangoIntegration
+
+    sentry_sdk.init(
+        dsn=os.environ['SENTRY_DSN'],
+        integrations=[DjangoIntegration()],
+    )
+
 django_heroku.settings(locals())
