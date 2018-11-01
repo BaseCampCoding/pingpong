@@ -22,12 +22,21 @@ class Game(models.Model):
     def clean(self):
         super().clean()
         self.ensure_all_points_for_games_players()
+        self.ensure_no_one_has_more_than_10_points()
 
     def ensure_all_points_for_games_players(self):
         for point, winner in enumerate(self.points, 1):
             if winner not in [self.player_1.id, self.player_2.id]:
                 raise ValidationError(
                     f'Invalid Point #{point} winner :{winner}')
+
+    def ensure_no_one_has_more_than_10_points(self):
+        if self.players_score(self.player_1) > 10:
+            raise ValidationError(
+                'Invalid Score: Player 1 has more than 10 points')
+        if self.players_score(self.player_2) > 10:
+            raise ValidationError(
+                'Invalid Score: Player 2 has more than 10 points')
 
     @property
     def game_finished(self):
