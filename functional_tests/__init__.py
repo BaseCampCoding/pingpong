@@ -71,7 +71,10 @@ class SeleniumTestCase(LiveServerTestCase):
 
     def create_user(self, *, username, password):
         model = get_user_model()
-        return model.objects.create_user(username=username, password=password)
+        user = model.objects.create_user(username=username)
+        user.set_password(password)
+        user.save()
+        return user
 
     def assertElementExists(self, selector, text=None):
         try:
