@@ -11,6 +11,7 @@ DEBUG = os.environ['DEBUG'] == 'True'
 ALLOWED_HOSTS: list = []
 
 INSTALLED_APPS = [
+    'scout_apm.django',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
