@@ -8,9 +8,15 @@ script:
   - ./test.sh
 env:
   - MOZ_HEADLESS=1 DEBUG=True SECRET_KEY=supersecrettraviskey DATABASE_URL=postgres:///travis_ci_test
+  global:
+    - PGPORT=5433
 addons:
   firefox: latest
 services:
   postgresql:  "10"
+  apt:
+  packages:
+    - postgresql-10
+    - postgresql-client-10
 before_script:
   - psql -c 'create database travis_ci_test;' -U postgres
