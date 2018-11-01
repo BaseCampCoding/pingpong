@@ -7,8 +7,6 @@ install:
 script:
   - ./test.sh
 env:
-  - MOZ_HEADLESS=1
-  - DEBUG=True
-  - SECRET_KEY=supersecrettraviskey
+  - MOZ_HEADLESS=1 DEBUG=True SECRET_KEY=supersecrettraviskey
 addons:
   firefox: latest
