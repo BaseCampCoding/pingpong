@@ -35,9 +35,11 @@ class ScoreGameTest(TestCase):
         )
 
     def test_nate_can_win(self):
-        request = self.client.post(
+        self.client.post(
             reverse('app:score-game', kwargs={'id': self.game.id}),
             data={
                 f'point_{which_point}': self.nate.id
                 for which_point in range(1, 11)
             })
+        self.game.refresh_from_db()
+        self.assertEqual(self.game.winner, self.nate)
