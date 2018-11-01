@@ -1,13 +1,16 @@
 from django import forms
 from django.forms import Form, ModelForm
+from django.contrib.auth import get_user_model
 
 from . import models
 
 
-class RegistrationForm(Form):
-    username = forms.CharField()
-    password = forms.CharField()
+class RegistrationForm(ModelForm):
     password_repeat = forms.CharField()
+
+    class Meta:
+        model = get_user_model()
+        fields = ['username', 'password']
 
     def clean(self):
         cleaned_data = super().clean()
