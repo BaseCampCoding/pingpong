@@ -1,6 +1,7 @@
 from django.urls import reverse_lazy, reverse
 from django.views.generic import FormView, TemplateView, CreateView, UpdateView, DetailView
 from django.contrib.auth.views import LoginView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import get_user_model
 from django.contrib.auth import login as login_user
 
@@ -19,8 +20,14 @@ class RegistrationView(CreateView):
         login_user(self.request, form.instance)
         return response
 
-class UserHome(TemplateView):
-    template_name = 'registration.html'
+
+class UserHome(LoginRequiredMixin, DetailView):
+    template_name = 'user.html'
+    context_object_name = 'user'
+    login_url = reverse_lazy('app:login')
+
+    def get_object(self):
+        return self.request.user
 
 
 class Login(LoginView):
