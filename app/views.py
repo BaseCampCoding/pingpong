@@ -2,6 +2,7 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic import FormView, TemplateView, CreateView, UpdateView, DetailView
 from django.contrib.auth.views import LoginView
 from django.contrib.auth import get_user_model
+from django.contrib.auth import login as login_user
 
 from .forms import RegistrationForm, GameUpdateForm
 from . import models
@@ -13,6 +14,10 @@ class RegistrationView(CreateView):
     form_class = RegistrationForm
     success_url = reverse_lazy('app:user-home')
 
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        login_user(self.request, form.instance)
+        return response
 
 class UserHome(TemplateView):
     template_name = 'registration.html'
