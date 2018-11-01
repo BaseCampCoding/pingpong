@@ -19,6 +19,12 @@ class RegistrationForm(ModelForm):
             raise forms.ValidationError('Passwords must match')
         return self.cleaned_data
 
+    def save(self):
+        user = super().save()
+        user.set_password(self.cleaned_data['password'])
+        user.save()
+        return user
+
 
 class GameUpdateForm(ModelForm):
     point_1 = forms.IntegerField()
