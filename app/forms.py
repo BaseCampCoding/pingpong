@@ -34,6 +34,15 @@ class GameUpdateForm(ModelForm):
     point_8 = forms.IntegerField()
     point_9 = forms.IntegerField()
     point_10 = forms.IntegerField()
+    point_11 = forms.IntegerField(required=False)
+    point_12 = forms.IntegerField(required=False)
+    point_13 = forms.IntegerField(required=False)
+    point_14 = forms.IntegerField(required=False)
+    point_15 = forms.IntegerField(required=False)
+    point_16 = forms.IntegerField(required=False)
+    point_17 = forms.IntegerField(required=False)
+    point_18 = forms.IntegerField(required=False)
+    point_19 = forms.IntegerField(required=False)
 
     class Meta:
         model = models.Game
@@ -51,5 +60,6 @@ class GameUpdateForm(ModelForm):
     def point_fields_to_list(cleaned_data):
         return [
             winner for point, winner in sorted(
-                cleaned_data.items(), key=lambda field: field[1])
+                cleaned_data.items(),
+                key=lambda field: int(field[0].split('_')[1])) if winner
         ]
