@@ -72,3 +72,15 @@ class SeleniumTestCase(LiveServerTestCase):
     def create_user(self, *, username, password):
         model = get_user_model()
         return model.objects.create_user(username=username, password=password)
+
+    def assertElementExists(self, selector, text=None):
+        try:
+            element = self.browser.find_element_by_css_selector(selector)
+        except NoSuchElementException:
+            raise AssertionError(f'Unable to find element {selector}')
+        else:
+            if text is not None and text not in element.text:
+                raise AssertionError(
+                    f'Element {selector} didn\'t contain "{text}"\n'
+                    f'Instead it contained the the following text:\n{element.text}'
+                )
