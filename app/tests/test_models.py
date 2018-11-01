@@ -74,3 +74,31 @@ class TestGameIsInvalid(GameTestCase):
                 ValidationError,
                 'Invalid Score: Player 2 has more than 10 points'):
             game.clean()
+
+
+class TestGameWinner(GameTestCase):
+    def test_is_no_one_if_no_one_has_10_points(self):
+        game = self.new_game(player_1_points=9, player_2_points=9)
+        self.assertIsNone(game.winner)
+
+    def test_is_player_1_if_they_have_10_points(self):
+        game = self.new_game(player_1_points=10, player_2_points=9)
+        self.assertEqual(game.winner, game.player_1)
+
+    def test_is_player_2_if_they_have_10_points(self):
+        game = self.new_game(player_1_points=9, player_2_points=10)
+        self.assertEqual(game.winner, game.player_2)
+
+
+class TestGameLoser(GameTestCase):
+    def test_is_no_one_if_no_one_has_10_points(self):
+        game = self.new_game(player_1_points=9, player_2_points=9)
+        self.assertIsNone(game.loser)
+
+    def test_is_player_2_if_player_1_has_10_points(self):
+        game = self.new_game(player_1_points=10, player_2_points=9)
+        self.assertEqual(game.loser, game.player_2)
+
+    def test_is_player_1_if_player_2_has_10_points(self):
+        game = self.new_game(player_1_points=9, player_2_points=10)
+        self.assertEqual(game.loser, game.player_1)
