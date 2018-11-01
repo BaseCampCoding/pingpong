@@ -1,21 +1,33 @@
-<!DOCTYPE html>
-<html>
+{% extends 'base.html' %}
+{% block title%}New User{% endblock title%}
+{% block body %}
 
-<head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>New User</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
-
-<body>
-    <form name="registration-form" method="POST">
-        {% csrf_token %}
-        <input type="text" id="username" name="username">
-        <input type="password" name="password" id="password">
-        <input type="password" name="password_repeat" id="password_repeat">
-        <button>Register</button>
-    </form>
-</body>
-
-</html>
+<form class="col-3" name="registration-form" method="POST">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="username">Username</label>
+        <input class="form-control{% if form.username.errors%} is-invalid{% endif %}" type="text" id="username" name="username"
+            value="{{ form.username.value|default:"" }}">
+        {% if form.username.errors %}
+        <div class="invalid-feedback">{{ form.username.errors }}</div>
+        {% endif %}
+    </div>
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input class="form-control{% if form.password.errors%} is-invalid{% endif %}" type="password" name="password"
+            id="password">
+        {% if form.password.errors %}
+        <div class="invalid-feedback">{{ form.password.errors }}</div>
+        {% endif %}
+    </div>
+    <div class="form-group">
+        <label for="password_repeat">Repeat your password</label>
+        <input class="form-control{% if form.password_repeat.errors%} is-invalid{% endif %}" type="password" name="password_repeat"
+            id="password_repeat">
+        {% if form.password_repeat.errors %}
+        <div class="invalid-feedback">{{ form.password_repeat.errors }}</div>
+        {% endif %}
+    </div>
+    <button class="btn btn-primary">Register</button>
+</form>
+{% endblock body %}

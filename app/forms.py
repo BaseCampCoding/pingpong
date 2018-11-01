@@ -6,21 +6,18 @@ from . import models
 
 
 class RegistrationForm(ModelForm):
+    password = forms.CharField()
     password_repeat = forms.CharField()
 
     class Meta:
         model = get_user_model()
-        fields = ['username', 'password']
+        fields = ['username', 'password', 'password_repeat']
 
-    def clean(self):
-        cleaned_data = super().clean()
-        password = cleaned_data['password']
-        password_repeat = cleaned_data['password_repeat']
-
-        if password != password_repeat:
+    def clean_password_repeat(self):
+        if self.cleaned_data['password'] != self.cleaned_data[
+                'password_repeat']:
             raise forms.ValidationError('Passwords must match')
-
-        return cleaned_data
+        return self.cleaned_data
 
 
 class GameUpdateForm(ModelForm):
