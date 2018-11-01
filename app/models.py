@@ -31,7 +31,8 @@ class Game(models.Model):
 
     @property
     def game_finished(self):
-        return len(self.points) == 10
+        return self.players_score(self.player_1) == 10 or \
+               self.players_score(self.player_2) == 10
 
     @property
     def winner(self):
