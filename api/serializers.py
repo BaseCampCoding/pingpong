@@ -27,4 +27,5 @@ class UserCreationSerializer(UserSerializer):
         return data
 
     def get_token(self, user):
-        return str(Token.objects.get_or_create(user=user))
+        token, _created = Token.objects.get_or_create(user=user)
+        return str(token)
