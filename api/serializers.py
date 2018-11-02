@@ -3,6 +3,8 @@ from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from rest_framework.authtoken.models import Token
 
+from app.models import Game
+
 User = get_user_model()
 
 
@@ -38,3 +40,13 @@ class UserCreationSerializer(UserSerializer):
         super().save()
         self.instance.set_password(self.validated_data['password'])
         self.instance.save()
+
+
+class GameSerializer(ModelSerializer):
+    class Meta:
+        model = Game
+        fields = ['id', 'player_1', 'player_2', 'points', 'referee']
+        read_only_fields = ['id', 'points', 'referee']
+
+
+GameCreationSerializer = GameSerializer
