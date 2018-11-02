@@ -11,6 +11,7 @@ DEBUG = os.environ['DEBUG'] == 'True'
 ALLOWED_HOSTS: list = []
 
 INSTALLED_APPS = [
+    'corsheaders',
     'scout_apm.django',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -21,10 +22,10 @@ INSTALLED_APPS = [
     'app',
     'rest_framework',
     'rest_framework.authtoken',
-    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    'api.middleware.cors_headers',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
