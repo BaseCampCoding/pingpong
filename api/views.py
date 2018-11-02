@@ -34,10 +34,12 @@ class ScoreGameView(UpdateAPIView):
 class UserListView(ListAPIView):
     permission_classes = [IsAuthenticated]
     queryset = User.objects.all()
+    serializer_class = UserSerializer
 
 
 class UserDetailView(RetrieveAPIView):
     permission_classes = [IsAuthenticated]
+    lookup_url_kwarg = 'id'
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
