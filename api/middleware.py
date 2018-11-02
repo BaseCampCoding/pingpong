@@ -4,7 +4,7 @@ def cors_headers(get_response):
         response._headers['access-control-allow-origins'] = (
             'Access-Control-Allow-Origin', '*')
         response._headers['access-control-allow-headers'] = (
-            'Access-Control-Allow-Headers', 'Content-Type')
+            'Access-Control-Allow-Headers', 'Content-Type, Authorization')
         return response
 
     return middleware
