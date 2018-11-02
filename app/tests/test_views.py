@@ -29,9 +29,12 @@ class ScoreGameTest(TestCase):
             username='nate', password='testpass')
         self.megan = self.UserModel.objects.create_user(
             username='megan', password='testpass')
+        self.ref = self.UserModel.objects.create_user(
+            username='ref', password='testpass')
         self.game = models.Game.objects.create(
             player_1=self.nate,
             player_2=self.megan,
+            referee=self.ref,
         )
 
     def test_nate_can_win(self):

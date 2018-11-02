@@ -5,6 +5,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import get_user_model
 from django.contrib.auth import login as login_user
 
+from django.http import HttpResponseRedirect
+
 from .forms import RegistrationForm, GameUpdateForm
 from . import models
 
@@ -34,10 +36,18 @@ class Login(LoginView):
     template_name = 'login.html'
 
 
-class NewGame(CreateView):
+class NewGame(LoginRequiredMixin, CreateView):
     model = models.Game
     template_name = 'new-game.html'
     fields = ['player_1', 'player_2']
+
+    def form_valid(self, form):
+        game = models.Game(
+            **form.cleaned_data, referee=self.request.user, points=[])
+        game.full_clean()
+        game.save()
+        self.object = game
+        return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
         return reverse('app:score-game', kwargs={'id': self.object.id})

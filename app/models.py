@@ -7,6 +7,11 @@ USER_MODEL = get_user_model()
 
 
 class Game(models.Model):
+    referee = models.ForeignKey(
+        USER_MODEL,
+        related_name='refereed_games',
+        on_delete=models.PROTECT,
+    )
     player_1 = models.ForeignKey(
         USER_MODEL,
         related_name='player_1_games',
@@ -17,7 +22,7 @@ class Game(models.Model):
         related_name='player_2_games',
         on_delete=models.PROTECT,
     )
-    points = ArrayField(models.IntegerField(), default=list)
+    points = ArrayField(models.IntegerField(), default=list, blank=True)
 
     def clean(self):
         super().clean()

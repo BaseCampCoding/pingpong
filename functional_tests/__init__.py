@@ -5,7 +5,7 @@ from contextlib import contextmanager
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from selenium.webdriver.support.expected_conditions import staleness_of
 
 from django.urls import reverse, resolve, Resolver404
@@ -66,7 +66,12 @@ class SeleniumTestCase(LiveServerTestCase):
     def assert_current_view(self, view_name):
         old_page = self.browser.find_element_by_tag_name('html')
         if self.current_view != view_name:
-            WebDriverWait(self.browser, 2).until(staleness_of(old_page))
+            try:
+                WebDriverWait(self.browser, 2).until(staleness_of(old_page))
+            except TimeoutException:
+                raise AssertionError(
+                    f'Expected view {view_name} != current view {self.current_view}'
+                )
         self.assertEqual(self.current_view, view_name, self.current_text)
 
     def create_user(self, *, username, password):
