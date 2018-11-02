@@ -49,4 +49,17 @@ class GameSerializer(ModelSerializer):
         read_only_fields = ['id', 'points', 'referee']
 
 
+class ScoreGameSerializer(ModelSerializer):
+    winner = serializers.IntegerField(source='winner.id')
+    loser = serializers.IntegerField(source='loser.id')
+
+    class Meta:
+        model = Game
+        fields = [
+            'id', 'player_1', 'player_2', 'points', 'referee', 'winner',
+            'loser'
+        ]
+        read_only_fields = ['id', 'player_1', 'player_2', 'referee']
+
+
 GameCreationSerializer = GameSerializer
