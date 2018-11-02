@@ -1,4 +1,4 @@
-from rest_framework.generics import CreateAPIView, UpdateAPIView, ListAPIView
+from rest_framework.generics import CreateAPIView, UpdateAPIView, ListAPIView, RetrieveAPIView
 from django.contrib.auth import get_user_model
 from rest_framework.authtoken.models import Token
 from app.models import Game
@@ -34,6 +34,11 @@ class ScoreGameView(UpdateAPIView):
 class UserListView(ListAPIView):
     permission_classes = [IsAuthenticated]
     queryset = User.objects.all()
+
+
+class UserDetailView(RetrieveAPIView):
+    permission_classes = [IsAuthenticated]
+    queryset = User.objects.all()
     serializer_class = UserSerializer
 
 
@@ -41,3 +46,4 @@ register = RegisterView.as_view()
 new_game = GameCreationView.as_view()
 score_game = ScoreGameView.as_view()
 users = UserListView.as_view()
+user = UserDetailView.as_view()
