@@ -50,8 +50,8 @@ class GameSerializer(ModelSerializer):
 
 
 class ScoreGameSerializer(ModelSerializer):
-    winner = serializers.IntegerField(source='winner.id')
-    loser = serializers.IntegerField(source='loser.id')
+    winner = serializers.IntegerField(source='winner.id', read_only=True)
+    loser = serializers.IntegerField(source='loser.id', read_only=True)
 
     class Meta:
         model = Game
