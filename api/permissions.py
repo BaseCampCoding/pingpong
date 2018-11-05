@@ -7,6 +7,5 @@ class IsReferee(BasePermission):
 
 
 class IsOptions(BasePermission):
-    def has_object_permission(self, request, view):
-        print(request.method)
+    def has_permission(self, request, view):
         return request.method == 'OPTIONS'
