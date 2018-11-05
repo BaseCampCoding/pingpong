@@ -10,10 +10,15 @@
 
 <body>
     <p id="status">{{ game.game_finished|yesno:"Finished,In Progress" }}</p>
+    {% if game.game_finished %}
     <p id="winner">{{ game.winner.username }}</p>
     <p id="winner-score">{{game.winner_score}}</p>
     <p id="loser">{{ game.loser.username }}</p>
     <p id="loser-score">{{ game.loser_score }}</p>
+    {% else %}
+    <p id="player_1">{{ game.player_1.username }}</p>
+    <p id="player_2">{{ game.player_2.username }}</p>
+    {% endif %}
     <p id="referee">{{ game.referee.username }}</p>
 </body>
 
