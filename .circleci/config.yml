@@ -1,0 +1,45 @@
+version: 2
+jobs:
+  build:
+    working-directory: ~/bcca-pingpong
+    docker:
+        - image: circleci/python:3.6.2-stretch-browsers
+          environment:
+                PIPENV_VENV_IN_PROJECT: true
+                DATABASE_URL: postgresql://root@localhost/circle_test?sslmode=disable
+        - image: circleci/postgres:10
+          environment:
+                POSTGRES_USER: root
+                POSTGRES_DB: circle_test
+    steps:
+        - checkout
+        - run: sudo chown -R circleci:circleci /usr/local/bin
+        - run: sudo chown -R circleci:circleci /usr/local/lib/python3.6/site-packages
+        - run:
+            name: Download Selenium
+            command: |
+                curl -O http://selenium-release.storage.googleapis.com/3.5/selenium-server-standalone-3.5.3.jar
+        - run:
+            name: Start Selenium
+            command: |
+                java -jar selenium-server-standalone-3.5.3.jar -log test-reports/selenium.log
+            background: true
+        - restore_cache:
+            key: deps9-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
+        - run:
+            command: |
+               sudo pip install pipenv
+               pipenv install
+        - save_cache:
+            key: deps9-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
+            paths:
+                - ".venv"
+                - "/usr/local/bin"
+                - "/usr/local/lib/python3.6/site-packages"
+        - run:
+            command: pipenv run test
+        - store_test_results:
+            path: test-results
+        - store_artifacts:
+            path: test-results
+            destination: tr1
