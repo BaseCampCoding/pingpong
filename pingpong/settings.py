@@ -3,6 +3,7 @@ from pathlib import Path
 from django.urls import reverse_lazy
 
 import django_heroku
+import dj_database_url
 
 BASE_DIR = Path(__file__).parent.parent.absolute()
 
@@ -109,3 +110,6 @@ if 'SENTRY_DSN' in os.environ:
     )
 
 django_heroku.settings(locals())
+ssl_require = os.environ.get('CIRCLE_CI') != '1'
+locals()['DATABASES']['default'] = dj_database_url.config(
+    conn_max_age=django_heroku.MAX_CONN_AGE, ssl_require=ssl_require)
