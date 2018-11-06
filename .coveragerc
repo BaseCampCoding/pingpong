@@ -4,5 +4,5 @@ omit=manage.py,pingpong/wsgi.py,.venv/*
 branch=True
 
 [report]
-fail_under=100
+fail_under=90
 show_missing=True
