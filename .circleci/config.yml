@@ -6,13 +6,13 @@ jobs:
         - image: circleci/python:3.6.2-browsers
           environment:
                 PIPENV_VENV_IN_PROJECT: true
-                DATABASE_URL: postgresql://root@localhost/circle_test?sslmode=disable
+                DATABASE_URL: postgresql://postgres@localhost/circle_test?sslmode=disable
                 DEBUG: False
                 SECRET_KEY: supersecretcirclecikey
                 CIRCLE_CI: 1
         - image: circleci/postgres:10
           environment:
-                POSTGRES_USER: root
+                POSTGRES_USER: postgres
                 POSTGRES_DB: circle_test
     steps:
         - checkout
