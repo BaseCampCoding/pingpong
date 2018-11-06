@@ -3,7 +3,7 @@ jobs:
   build:
     working-directory: ~/bcca-pingpong
     docker:
-        - image: circleci/python:3.6.2-stretch-browsers
+        - image: circleci/python:3.6.2-browsers
           environment:
                 PIPENV_VENV_IN_PROJECT: true
                 DATABASE_URL: postgresql://postgres@localhost/circle_test?sslmode=disable

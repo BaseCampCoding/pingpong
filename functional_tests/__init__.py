@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 from contextlib import contextmanager
 
 from selenium import webdriver
-from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from selenium.webdriver.support.expected_conditions import staleness_of
@@ -16,7 +16,7 @@ class SeleniumTestCase(LiveServerTestCase):
     def setUp(self):
         options = Options()
         options.headless = True
-        self.browser = webdriver.Firefox(options=options)
+        self.browser = webdriver.Chrome(options=options)
         self.browser.implicitly_wait(2)
 
         self.setUpTestData()
